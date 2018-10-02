@@ -1,0 +1,70 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^([^/\.]+)/?$ index.php/$1 [L]
+	RewriteRule ^admin/([login]+)/?$ admin/index.php [L] 
+	
+	#ERROR 404
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule (.*) addons/html/error404.php [L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+# Arquivos que deverao ser comprimidos
+	#***************************
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/xml
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE application/x-httpd-php
+	AddOutputFilterByType DEFLATE application/x-httpd-fastphp
+	AddOutputFilterByType DEFLATE application/x-httpd-eruby
+	# Arquivos e texto que nao deverao ser comprimidos
+	#***************************
+	SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.pdf$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.avi$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.mov$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.mp3$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.mp4$ no-gzip dont-vary
+	SetEnvIfNoCase Request_URI \.rm$ no-gzip dont-vary
+  <IfModule mod_headers.c>
+	# properly handle requests coming from behind proxies
+	Header append Vary User-Agent
+ </IfModule>
+</IfModule>
+ 
+ 
+ 
+<IfModule mod_expires.c>
+ ExpiresActive On
+ # Set Expires header to current time by default
+ ExpiresDefault A0
+ 
+ <FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$">
+   ExpiresDefault "access plus 30 days"
+ </FilesMatch>
+ 
+ <FilesMatch "\.(|png|gif|swf|bmp|)$">
+   ExpiresDefault "access plus 7 days"
+ </FilesMatch>
+ 
+ <FilesMatch "\.(|jpg|jpeg|)$">
+   ExpiresDefault "access plus 1 seconds"
+ </FilesMatch>
+ 
+ <FilesMatch "\.(txt|xml|js|css)$">
+   ExpiresDefault "access plus 2 hours"
+ </FilesMatch>
+</IfModule>
+ 
+
+
+
+
